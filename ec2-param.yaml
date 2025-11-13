@@ -21,7 +21,7 @@ Resources:
     Properties:
       InstanceType: !Ref TipoInstancia
       ImageId: !Ref AMI
-      KeyName: mi-par-clave      # reemplazá con tu keypair existente
+      KeyName: CloudFormation-key
       SecurityGroups:
         - !Ref GrupoSeguridad
 
