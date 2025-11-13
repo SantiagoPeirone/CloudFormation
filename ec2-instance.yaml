@@ -1,31 +1,17 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Stack EC2 parametrizado con AMI oficial de AWS"
-
-Parameters:
-  TipoInstancia:
-    Type: String
-    Default: t2.micro
-    AllowedValues:
-      - t2.micro
-      - t3.micro
-      - t3.small
-    Description: "Selecciona el tipo de instancia"
-
-  AMI:
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+Description: "Stack simple para crear una instancia EC2 en AWS"
 
 Resources:
-  InstanciaEC2:
+  MiInstanciaEC2:
     Type: "AWS::EC2::Instance"
     Properties:
-      InstanceType: !Ref TipoInstancia
-      ImageId: !Ref AMI
-      KeyName: mi-par-clave     # reemplazá con tu keypair existente
+      InstanceType: t2.micro
+      ImageId: ami-09e67e426f25ce0d7   # Amazon Linux 2 en us-east-1 (ajustar si querés)
+      KeyName: mi-par-clave             # reemplazá con tu keypair existente
       SecurityGroups:
-        - !Ref GrupoSeguridad
+        - !Ref MiGrupoSeguridad
 
-  GrupoSeguridad:
+  MiGrupoSeguridad:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: "Permite SSH desde cualquier origen"
@@ -34,8 +20,3 @@ Resources:
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
-
-Outputs:
-  IDInstancia:
-    Description: "ID de la instancia creada"
-    Value: !Ref InstanciaEC2
